@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { 
   Zap, Users, Play, History, User, Coins, Award, Bell, 
   MessageSquare, ChevronRight, X, ArrowUpRight, ArrowDownRight, 
@@ -796,258 +797,268 @@ export default function App() {
               </div>
 
               {/* TAB CONTROLS RENDERS BASED ON ACTIVE CURRENT TAB */}
-              {currentTab === 'home' && (
-                <div className="flex flex-col gap-4">
-                  {/* GRID 8 MENU BAR WIDGETS */}
-                  <div className="grid grid-cols-4 gap-3 bg-slate-900 border border-slate-800/60 p-4 rounded-3xl text-center">
-                    <button onClick={() => setSelectedSubPage('vip_ranks')} className="flex flex-col items-center gap-1 hover:opacity-80">
-                      <div className="w-10 h-10 bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 rounded-xl flex items-center justify-center">
-                        <Award size={20}/>
-                      </div>
-                      <span className="text-[9px] text-slate-400">Tabel VIP</span>
-                    </button>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentTab}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.15 }}
+                  className="w-full flex flex-col gap-4"
+                >
+                  {currentTab === 'home' && (
+                    <div className="flex flex-col gap-4">
+                      {/* GRID 8 MENU BAR WIDGETS */}
+                      <div className="grid grid-cols-4 gap-3 bg-slate-900 border border-slate-800/60 p-4 rounded-3xl text-center">
+                        <button onClick={() => setSelectedSubPage('vip_ranks')} className="flex flex-col items-center gap-1 hover:opacity-80">
+                          <div className="w-10 h-10 bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 rounded-xl flex items-center justify-center">
+                            <Award size={20}/>
+                          </div>
+                          <span className="text-[9px] text-slate-400">Tabel VIP</span>
+                        </button>
 
-                    <button onClick={() => setSelectedSubPage('vouchers_screen')} className="flex flex-col items-center gap-1 hover:opacity-80">
-                      <div className="w-10 h-10 bg-purple-500/10 border border-purple-500/20 text-purple-400 rounded-xl flex items-center justify-center">
-                        <Gift size={20}/>
-                      </div>
-                      <span className="text-[9px] text-slate-400">Kode Kupon</span>
-                    </button>
+                        <button onClick={() => setSelectedSubPage('vouchers_screen')} className="flex flex-col items-center gap-1 hover:opacity-80">
+                          <div className="w-10 h-10 bg-purple-500/10 border border-purple-500/20 text-purple-400 rounded-xl flex items-center justify-center">
+                            <Gift size={20}/>
+                          </div>
+                          <span className="text-[9px] text-slate-400">Kode Kupon</span>
+                        </button>
 
-                    <button onClick={() => setSelectedSubPage('games_hub')} className="flex flex-col items-center gap-1 hover:opacity-80">
-                      <div className="w-10 h-10 bg-pink-500/10 border border-pink-500/20 text-pink-400 rounded-xl flex items-center justify-center">
-                        <Coins size={20}/>
-                      </div>
-                      <span className="text-[9px] text-slate-400">VIP Game</span>
-                    </button>
+                        <button onClick={() => setSelectedSubPage('games_hub')} className="flex flex-col items-center gap-1 hover:opacity-80">
+                          <div className="w-10 h-10 bg-pink-500/10 border border-pink-500/20 text-pink-400 rounded-xl flex items-center justify-center">
+                            <Coins size={20}/>
+                          </div>
+                          <span className="text-[9px] text-slate-400">VIP Game</span>
+                        </button>
 
-                    <button onClick={() => setSelectedSubPage('calendar_screen')} className="flex flex-col items-center gap-1 hover:opacity-80">
-                      <div className="w-10 h-10 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-xl flex items-center justify-center">
-                        <Calendar size={20}/>
-                      </div>
-                      <span className="text-[9px] text-slate-400">Bonus Claim</span>
-                    </button>
+                        <button onClick={() => setSelectedSubPage('calendar_screen')} className="flex flex-col items-center gap-1 hover:opacity-80">
+                          <div className="w-10 h-10 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-xl flex items-center justify-center">
+                            <Calendar size={20}/>
+                          </div>
+                          <span className="text-[9px] text-slate-400">Bonus Claim</span>
+                        </button>
 
-                    <a href="https://wa.me/6281234567890" target="_blank" className="flex flex-col items-center gap-1 hover:opacity-80">
-                      <div className="w-10 h-10 bg-green-500/10 border border-green-500/20 text-green-400 rounded-xl flex items-center justify-center">
-                        <Heart size={20}/>
-                      </div>
-                      <span className="text-[9px] text-slate-400">Helpline Wa</span>
-                    </a>
+                        <a href="https://wa.me/6281234567890" target="_blank" className="flex flex-col items-center gap-1 hover:opacity-80">
+                          <div className="w-10 h-10 bg-green-500/10 border border-green-500/20 text-green-400 rounded-xl flex items-center justify-center">
+                            <Heart size={20}/>
+                          </div>
+                          <span className="text-[9px] text-slate-400">Helpline Wa</span>
+                        </a>
 
-                    <button onClick={() => setSelectedSubPage('guide_screen')} className="flex flex-col items-center gap-1 hover:opacity-80">
-                      <div className="w-10 h-10 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-xl flex items-center justify-center">
-                        <Info size={20}/>
-                      </div>
-                      <span className="text-[9px] text-slate-400">Panduan</span>
-                    </button>
+                        <button onClick={() => setSelectedSubPage('guide_screen')} className="flex flex-col items-center gap-1 hover:opacity-80">
+                          <div className="w-10 h-10 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-xl flex items-center justify-center">
+                            <Info size={20}/>
+                          </div>
+                          <span className="text-[9px] text-slate-400">Panduan</span>
+                        </button>
 
-                    <button onClick={() => setSelectedSubPage('apk_screen')} className="flex flex-col items-center gap-1 hover:opacity-80">
-                      <div className="w-10 h-10 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl flex items-center justify-center">
-                        <Download size={20}/>
-                      </div>
-                      <span className="text-[9px] text-slate-400">Unduh APK</span>
-                    </button>
+                        <button onClick={() => setSelectedSubPage('apk_screen')} className="flex flex-col items-center gap-1 hover:opacity-80">
+                          <div className="w-10 h-10 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl flex items-center justify-center">
+                            <Download size={20}/>
+                          </div>
+                          <span className="text-[9px] text-slate-400">Unduh APK</span>
+                        </button>
 
-                    <button onClick={() => setSelectedSubPage('promo_screen')} className="flex flex-col items-center gap-1 hover:opacity-80">
-                      <div className="w-10 h-10 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 rounded-xl flex items-center justify-center">
-                        <Zap size={20}/>
+                        <button onClick={() => setSelectedSubPage('promo_screen')} className="flex flex-col items-center gap-1 hover:opacity-80">
+                          <div className="w-10 h-10 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 rounded-xl flex items-center justify-center">
+                            <Zap size={20}/>
+                          </div>
+                          <span className="text-[9px] text-slate-400">Promo Event</span>
+                        </button>
                       </div>
-                      <span className="text-[9px] text-slate-400">Promo Event</span>
-                    </button>
-                  </div>
 
-                  {/* COUNCILS LOGS FOR OPERATIONAL STATISTICS */}
-                  <div className="bg-slate-900 border border-slate-800 p-4 rounded-2xl flex flex-col gap-3">
-                    <span className="text-[10px] font-extrabold text-blue-500 uppercase tracking-widest block">Audit Publik Platform</span>
-                    <div className="grid grid-cols-2 gap-3 text-center">
-                      <div className="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
-                        <span className="text-[8px] text-slate-400 block uppercase">Total Saldo Sukses</span>
-                        <span className="text-xs font-bold text-slate-100">Rp 1.420.750.000</span>
-                      </div>
-                      <div className="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
-                        <span className="text-[8px] text-slate-400 block uppercase">Penarikan Sukses Terbayar</span>
-                        <span className="text-xs font-bold text-slate-100">Rp 984.520.000</span>
+                      {/* COUNCILS LOGS FOR OPERATIONAL STATISTICS */}
+                      <div className="bg-slate-900 border border-slate-800 p-4 rounded-2xl flex flex-col gap-3">
+                        <span className="text-[10px] font-extrabold text-blue-500 uppercase tracking-widest block">Audit Publik Platform</span>
+                        <div className="grid grid-cols-2 gap-3 text-center">
+                          <div className="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                            <span className="text-[8px] text-slate-400 block uppercase">Total Saldo Sukses</span>
+                            <span className="text-xs font-bold text-slate-100">Rp 1.420.750.000</span>
+                          </div>
+                          <div className="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                            <span className="text-[8px] text-slate-400 block uppercase">Penarikan Sukses Terbayar</span>
+                            <span className="text-xs font-bold text-slate-100">Rp 984.520.000</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              )}
+                  )}
 
-              {/* COGNATE VIEW RENDERS */}
-              {currentTab === 'team' && (
-                <div className="flex flex-col gap-4 animate-fade-in">
-                  <div className="bg-slate-900 border border-slate-800 p-5 rounded-2xl flex flex-col gap-4">
-                    <h3 className="text-sm font-bold text-blue-500 uppercase border-b border-slate-800 pb-2">Kode Referensi Anda</h3>
-                    
-                    <div className="flex gap-2">
-                      <input type="text" readOnly value={`https://noxara.page/?ref=NOX${user.username.toUpperCase()}`} className="flex-grow bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-300 font-mono" />
-                      <button onClick={() => {
-                        navigator.clipboard.writeText(`https://noxara.page/?ref=NOX${user.username.toUpperCase()}`);
-                        setSuccessFlash('Tautan referral berhasil disalin!');
-                      }} className="bg-blue-600 hover:bg-blue-500 text-white px-3 rounded-xl text-xs font-bold">Salin</button>
+                  {currentTab === 'team' && (
+                    <div className="flex flex-col gap-4 animate-fade-in">
+                      <div className="bg-slate-900 border border-slate-800 p-5 rounded-2xl flex flex-col gap-4">
+                        <h3 className="text-sm font-bold text-blue-500 uppercase border-b border-slate-800 pb-2">Kode Referensi Anda</h3>
+                        
+                        <div className="flex gap-2">
+                          <input type="text" readOnly value={`https://noxara.page/?ref=NOX${user.username.toUpperCase()}`} className="flex-grow bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-300 font-mono" />
+                          <button onClick={() => {
+                            navigator.clipboard.writeText(`https://noxara.page/?ref=NOX${user.username.toUpperCase()}`);
+                            setSuccessFlash('Tautan referral berhasil disalin!');
+                          }} className="bg-blue-600 hover:bg-blue-500 text-white px-3 rounded-xl text-xs font-bold">Salin</button>
+                        </div>
+
+                        <div className="grid grid-cols-3 gap-2 text-center mt-2">
+                          <div className="bg-slate-950 p-2 rounded-xl border border-slate-850">
+                            <span className="text-[8px] text-slate-400 block">Level 1 (10%)</span>
+                            <span className="text-xs font-bold text-white">0 Anggota</span>
+                          </div>
+                          <div className="bg-slate-950 p-2 rounded-xl border border-slate-850">
+                            <span className="text-[8px] text-slate-400 block">Level 2 (5%)</span>
+                            <span className="text-xs font-bold text-white">0 Anggota</span>
+                          </div>
+                          <div className="bg-slate-950 p-2 rounded-xl border border-slate-850">
+                            <span className="text-[8px] text-slate-400 block">Level 3 (2%)</span>
+                            <span className="text-xs font-bold text-white">0 Anggota</span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
+                  )}
 
-                    <div className="grid grid-cols-3 gap-2 text-center mt-2">
-                      <div className="bg-slate-950 p-2 rounded-xl border border-slate-850">
-                        <span className="text-[8px] text-slate-400 block">Level 1 (10%)</span>
-                        <span className="text-xs font-bold text-white">0 Anggota</span>
+                  {currentTab === 'product' && (
+                    <div className="flex flex-col gap-4 animate-fade-in">
+                      <div className="flex justify-between items-center pb-2 border-b border-slate-800">
+                        <h3 className="text-sm font-black text-blue-500 uppercase tracking-widest">Toko Hardware Miner</h3>
+                        <span className="text-[10px] bg-cyan-400/10 text-cyan-400 border border-cyan-400/20 px-2 py-0.5 rounded-full font-mono">15 Mesin Tersedia</span>
                       </div>
-                      <div className="bg-slate-950 p-2 rounded-xl border border-slate-850">
-                        <span className="text-[8px] text-slate-400 block">Level 2 (5%)</span>
-                        <span className="text-xs font-bold text-white">0 Anggota</span>
-                      </div>
-                      <div className="bg-slate-950 p-2 rounded-xl border border-slate-850">
-                        <span className="text-[8px] text-slate-400 block">Level 3 (2%)</span>
-                        <span className="text-xs font-bold text-white">0 Anggota</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
 
-              {currentTab === 'product' && (
-                <div className="flex flex-col gap-4 animate-fade-in">
-                  <div className="flex justify-between items-center pb-2 border-b border-slate-800">
-                    <h3 className="text-sm font-black text-blue-500 uppercase tracking-widest">Toko Hardware Miner</h3>
-                    <span className="text-[10px] bg-cyan-400/10 text-cyan-400 border border-cyan-400/20 px-2 py-0.5 rounded-full font-mono">15 Mesin Tersedia</span>
-                  </div>
-
-                  <div className="flex flex-col gap-4">
-                    {/* Render Category blocks directly */}
-                    {['ordinary', 'medium', 'high'].map(cat => (
-                      <div key={cat} className="flex flex-col gap-2.5">
-                        <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1 ml-1">{cat === 'ordinary' ? 'ORDINARY (Biasa)' : cat.toUpperCase()} TIER</h4>
-                        {INITIAL_PRODUCTS.filter(p => p.category === cat).map(prod => (
-                          <div key={prod.id} className="bg-slate-900 border border-slate-800 p-4 rounded-2xl flex justify-between items-center hover:border-slate-700 transition">
-                            <div className="flex flex-col gap-1">
-                              <span className="text-xs font-bold text-white">{prod.name}</span>
-                              <div className="flex gap-2 items-center">
-                                <span className="text-[10px] text-blue-400 font-bold">Harga: Rp {prod.price.toLocaleString()}</span>
-                                <span className="text-[10px] text-emerald-400">Profit: Rp {prod.profit.toLocaleString()}/hari</span>
+                      <div className="flex flex-col gap-4">
+                        {/* Render Category blocks directly */}
+                        {['ordinary', 'medium', 'high'].map(cat => (
+                          <div key={cat} className="flex flex-col gap-2.5">
+                            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1 ml-1">{cat === 'ordinary' ? 'ORDINARY (Biasa)' : cat.toUpperCase()} TIER</h4>
+                            {INITIAL_PRODUCTS.filter(p => p.category === cat).map(prod => (
+                              <div key={prod.id} className="bg-slate-900 border border-slate-800 p-4 rounded-2xl flex justify-between items-center hover:border-slate-700 transition">
+                                <div className="flex flex-col gap-1">
+                                  <span className="text-xs font-bold text-white">{prod.name}</span>
+                                  <div className="flex gap-2 items-center">
+                                    <span className="text-[10px] text-blue-400 font-bold">Harga: Rp {prod.price.toLocaleString()}</span>
+                                    <span className="text-[10px] text-emerald-400">Profit: Rp {prod.profit.toLocaleString()}/hari</span>
+                                  </div>
+                                </div>
+                                <button onClick={() => buyProduct(prod)} className="bg-blue-600 hover:bg-blue-500 text-white text-xs px-3 py-1.5 rounded-xl font-bold">Sewa</button>
                               </div>
-                            </div>
-                            <button onClick={() => buyProduct(prod)} className="bg-blue-600 hover:bg-blue-500 text-white text-xs px-3 py-1.5 rounded-xl font-bold">Sewa</button>
+                            ))}
                           </div>
                         ))}
                       </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {currentTab === 'mining' && (
-                <div className="flex flex-col gap-4 animate-fade-in">
-                  <div className="pb-2 border-b border-slate-800">
-                    <h3 className="text-sm font-black text-blue-500 uppercase">Kontrol Hardware Aktif Anda</h3>
-                  </div>
-
-                  {userMiners.length === 0 ? (
-                    <div className="bg-slate-900 border border-slate-800/50 p-8 rounded-2xl text-center flex flex-col items-center justify-center gap-3">
-                      <Play size={28} className="text-slate-600 animate-pulse" />
-                      <div>
-                        <span className="text-xs font-bold text-slate-300 block">Belum ada hardware mesin terpasang</span>
-                        <p className="text-[10px] text-slate-500 mt-0.5">Mulai menyewa mesin di panel produk (+) untuk memulai dividen pertambangan harian Anda</p>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="flex flex-col gap-3">
-                      {userMiners.map(miner => {
-                        const sess = miningSessions[miner.id];
-                        return (
-                          <div key={miner.id} className="bg-slate-900 border border-slate-800 p-4 rounded-2xl flex flex-col gap-3">
-                            <div className="flex justify-between items-center">
-                              <div>
-                                <span className="text-xs font-extrabold text-white">{miner.name}</span>
-                                <span className="text-[9px] text-slate-500 block">Sisa Sewa Kontrak: {miner.durRemaining} Hari</span>
-                              </div>
-                              <span className="text-[10px] bg-slate-950 px-2 py-0.5 rounded border border-slate-800 text-cyan-400 font-mono">Rp {miner.profit.toLocaleString()}/hari</span>
-                            </div>
-
-                            {/* State verification display */}
-                            {sess ? (
-                              <div className="flex flex-col gap-2 bg-slate-950 p-3 rounded-xl border border-slate-850">
-                                <div className="flex justify-between text-[10px]">
-                                  <span className="text-slate-400">Komputasi Algoritma Tambang...</span>
-                                  <span className="text-blue-400 font-mono">{sess.remaining > 0 ? `${sess.remaining} Jam` : 'SELESAI'}</span>
-                                </div>
-                                <div className="w-full bg-slate-900 h-2 rounded-full overflow-hidden">
-                                  <div className="bg-blue-500 h-full transition-all duration-1000" style={{ width: `${((10 - sess.remaining) / 10) * 100}%` }}></div>
-                                </div>
-                                {sess.remaining === 0 && (
-                                  <button onClick={() => claimMiningProfit(miner.id)} className="w-full py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold rounded-lg mt-1 transition shadow-lg">Klaim Dividen Rp {sess.profit.toLocaleString()}</button>
-                                )}
-                              </div>
-                            ) : (
-                              <button onClick={() => startMining(miner.id, miner.profit)} className="w-full py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-1.5">
-                                <Play size={12}/> Mulai Komputasi Pertambangan (2 Jam)
-                              </button>
-                            )}
-                          </div>
-                        );
-                      })}
                     </div>
                   )}
-                </div>
-              )}
 
-              {currentTab === 'tx' && (
-                <div className="flex flex-col gap-4 animate-fade-in">
-                  <div className="pb-2 border-b border-slate-800">
-                    <h3 className="text-sm font-black text-blue-500 uppercase">Riwayat Ledger Bookkeeping</h3>
-                  </div>
+                  {currentTab === 'mining' && (
+                    <div className="flex flex-col gap-4 animate-fade-in">
+                      <div className="pb-2 border-b border-slate-800">
+                        <h3 className="text-sm font-black text-blue-500 uppercase">Kontrol Hardware Aktif Anda</h3>
+                      </div>
 
-                  <div className="flex flex-col gap-2">
-                    {ledger.map(row => (
-                      <div key={row.id} className="bg-slate-900 border border-slate-800/80 p-3 rounded-xl flex justify-between items-center">
-                        <div className="flex flex-col gap-0.5">
-                          <span className="text-[11px] font-bold text-white">{row.desc}</span>
-                          <span className="text-[9px] text-slate-500">{row.date}</span>
+                      {userMiners.length === 0 ? (
+                        <div className="bg-slate-900 border border-slate-800/50 p-8 rounded-2xl text-center flex flex-col items-center justify-center gap-3">
+                          <Play size={28} className="text-slate-600 animate-pulse" />
+                          <div>
+                            <span className="text-xs font-bold text-slate-300 block">Belum ada hardware mesin terpasang</span>
+                            <p className="text-[10px] text-slate-500 mt-0.5">Mulai menyewa mesin di panel produk (+) untuk memulai dividen pertambangan harian Anda</p>
+                          </div>
                         </div>
-                        <div className="text-right">
-                          <span className="text-xs font-bold text-blue-400 font-mono">+Rp {row.amount.toLocaleString()}</span>
-                          <span className="text-[8px] uppercase font-mono block text-slate-400">{row.type}</span>
+                      ) : (
+                        <div className="flex flex-col gap-3">
+                          {userMiners.map(miner => {
+                            const sess = miningSessions[miner.id];
+                            return (
+                              <div key={miner.id} className="bg-slate-900 border border-slate-800 p-4 rounded-2xl flex flex-col gap-3">
+                                <div className="flex justify-between items-center">
+                                  <div>
+                                    <span className="text-xs font-extrabold text-white">{miner.name}</span>
+                                    <span className="text-[9px] text-slate-500 block">Sisa Sewa Kontrak: {miner.durRemaining} Hari</span>
+                                  </div>
+                                  <span className="text-[10px] bg-slate-950 px-2 py-0.5 rounded border border-slate-800 text-cyan-400 font-mono">Rp {miner.profit.toLocaleString()}/hari</span>
+                                </div>
+
+                                {/* State verification display */}
+                                {sess ? (
+                                  <div className="flex flex-col gap-2 bg-slate-950 p-3 rounded-xl border border-slate-850">
+                                    <div className="flex justify-between text-[10px]">
+                                      <span className="text-slate-400">Komputasi Algoritma Tambang...</span>
+                                      <span className="text-blue-400 font-mono">{sess.remaining > 0 ? `${sess.remaining} Jam` : 'SELESAI'}</span>
+                                    </div>
+                                    <div className="w-full bg-slate-900 h-2 rounded-full overflow-hidden">
+                                      <div className="bg-blue-500 h-full transition-all duration-1000" style={{ width: `${((10 - sess.remaining) / 10) * 100}%` }}></div>
+                                    </div>
+                                    {sess.remaining === 0 && (
+                                      <button onClick={() => claimMiningProfit(miner.id)} className="w-full py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold rounded-lg mt-1 transition shadow-lg">Klaim Dividen Rp {sess.profit.toLocaleString()}</button>
+                                    )}
+                                  </div>
+                                ) : (
+                                  <button onClick={() => startMining(miner.id, miner.profit)} className="w-full py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-1.5">
+                                    <Play size={12}/> Mulai Komputasi Pertambangan (2 Jam)
+                                  </button>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {currentTab === 'tx' && (
+                    <div className="flex flex-col gap-4 animate-fade-in">
+                      <div className="pb-2 border-b border-slate-800">
+                        <h3 className="text-sm font-black text-blue-500 uppercase">Riwayat Ledger Bookkeeping</h3>
+                      </div>
+
+                      <div className="flex flex-col gap-2">
+                        {ledger.map(row => (
+                          <div key={row.id} className="bg-slate-900 border border-slate-800/80 p-3 rounded-xl flex justify-between items-center">
+                            <div className="flex flex-col gap-0.5">
+                              <span className="text-[11px] font-bold text-white">{row.desc}</span>
+                              <span className="text-[9px] text-slate-500">{row.date}</span>
+                            </div>
+                            <div className="text-right">
+                              <span className="text-xs font-bold text-blue-400 font-mono">+Rp {row.amount.toLocaleString()}</span>
+                              <span className="text-[8px] uppercase font-mono block text-slate-400">{row.type}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {currentTab === 'profile' && (
+                    <div className="flex flex-col gap-4 animate-fade-in">
+                      <div className="bg-slate-900 border border-slate-800 p-4 rounded-2xl flex flex-col gap-3 text-center">
+                        <div className="w-14 h-14 bg-gradient-to-tr from-blue-600 to-cyan-400 rounded-full flex items-center justify-center text-white text-lg font-black mx-auto">
+                          {user.username.substr(0, 1).toUpperCase()}
+                        </div>
+                        <div>
+                          <h4 className="text-xs font-extrabold text-white">{user.username}</h4>
+                          <p className="text-[10px] text-slate-400 mt-0.5">{user.email}</p>
                         </div>
                       </div>
-                    ))}
-                  </div>
-                </div>
-              )}
 
-              {currentTab === 'profile' && (
-                <div className="flex flex-col gap-4 animate-fade-in">
-                  <div className="bg-slate-900 border border-slate-800 p-4 rounded-2xl flex flex-col gap-3 text-center">
-                    <div className="w-14 h-14 bg-gradient-to-tr from-blue-600 to-cyan-400 rounded-full flex items-center justify-center text-white text-lg font-black mx-auto">
-                      {user.username.substr(0, 1).toUpperCase()}
+                      {/* Security items and bank binds check */}
+                      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col gap-2 text-xs">
+                        <button onClick={() => setSelectedSubPage('bank_account')} className="flex justify-between items-center py-2 border-b border-slate-850 hover:opacity-80">
+                          <span className="text-slate-300">Konfigurasi Pengikatan Rekening Bank</span>
+                          <ChevronRight size={14} className="text-slate-500"/>
+                        </button>
+                        <button onClick={() => setSelectedSubPage('pin_setup')} className="flex justify-between items-center py-2 border-b border-slate-850 hover:opacity-80">
+                          <span className="text-slate-300">Buat PIN Transaksi Penarikan (6 Digit)</span>
+                          <ChevronRight size={14} className="text-slate-500"/>
+                        </button>
+                        <button onClick={() => {
+                          if (window.confirm('Apakah Anda yakin ingin logout aman hancurkan sesi?')) {
+                            setActiveScreen('auth');
+                            logToAdmin('Sesi dihancurkan. Logged out.');
+                          }
+                        }} className="flex justify-between items-center py-2 text-red-400 font-bold hover:opacity-80">
+                          <span>Keluar Aplikasi (Log Out)</span>
+                          <ChevronRight size={14}/>
+                        </button>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="text-xs font-extrabold text-white">{user.username}</h4>
-                      <p className="text-[10px] text-slate-400 mt-0.5">{user.email}</p>
-                    </div>
-                  </div>
-
-                  {/* Security items and bank binds check */}
-                  <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col gap-2 text-xs">
-                    <button onClick={() => setSelectedSubPage('bank_account')} className="flex justify-between items-center py-2 border-b border-slate-850 hover:opacity-80">
-                      <span className="text-slate-300">Konfigurasi Pengikatan Rekening Bank</span>
-                      <ChevronRight size={14} className="text-slate-500"/>
-                    </button>
-                    <button onClick={() => setSelectedSubPage('pin_setup')} className="flex justify-between items-center py-2 border-b border-slate-850 hover:opacity-80">
-                      <span className="text-slate-300">Buat PIN Transaksi Penarikan (6 Digit)</span>
-                      <ChevronRight size={14} className="text-slate-500"/>
-                    </button>
-                    <button onClick={() => {
-                      if (window.confirm('Apakah Anda yakin ingin logout aman hancurkan sesi?')) {
-                        setActiveScreen('auth');
-                        logToAdmin('Sesi dihancurkan. Logged out.');
-                      }
-                    }} className="flex justify-between items-center py-2 text-red-400 font-bold hover:opacity-80">
-                      <span>Keluar Aplikasi (Log Out)</span>
-                      <ChevronRight size={14}/>
-                    </button>
-                  </div>
-                </div>
-              )}
+                  )}
+                </motion.div>
+              </AnimatePresence>
 
             </div>
           )}
@@ -1471,13 +1482,17 @@ export default function App() {
                         <span className="text-[9px] text-yellow-500 font-bold">*Wajib mentransfer sesuai angka unik guna penyelarasan cepat!</span>
                       </div>
 
-                      {/* Fake static QRIS loader from Cashify rules */}
-                      <div className="w-44 h-44 bg-white p-3 rounded-2xl mx-auto flex items-center justify-center border-4 border-slate-850 shadow-inner">
-                        <div className="bg-indigo-950 w-full h-full rounded flex flex-col items-center justify-center">
-                          <span className="text-[10px] text-white font-black font-mono">CASHIFY QR MAP</span>
-                          <span className="text-[8px] text-slate-300 font-mono mt-1">com.orderkuota.app</span>
-                        </div>
+                      {/* Premium real-time dynamic QRIS scannable element */}
+                      <div className="w-48 h-48 bg-white p-2 rounded-2xl mx-auto flex items-center justify-center border-4 border-slate-800 shadow-lg relative">
+                        <img 
+                          src={`https://api.qrserver.com/v1/create-qr-code/?size=160x160&color=0f172a&data=${encodeURIComponent(activeInvoice.qr_string)}`}
+                          alt="QRIS QR Code" 
+                          className="w-40 h-40"
+                          referrerPolicy="no-referrer"
+                        />
+                        <div className="absolute inset-0 border border-slate-200 pointer-events-none rounded-2xl"></div>
                       </div>
+                      <span className="text-[9px] text-slate-400 font-mono italic">Pindai kode QRIS di atas untuk melakukan transfer QRIS instan</span>
 
                       <div className="flex flex-col gap-2 border-t border-slate-800 pt-4 text-left font-mono">
                         <div className="flex justify-between text-[10px]">
