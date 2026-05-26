@@ -1,0 +1,6 @@
+{
+  "name": "Noxara Website",
+  "description": "Platform PHP Native & MySQL responsive untuk browser HP yang elegan, dengan sistem voucher, mining, referral, saldo ledger, game, dan deposit otomatis Cashify.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
