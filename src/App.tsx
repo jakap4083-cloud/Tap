@@ -76,6 +76,7 @@ export default function App() {
   const [depositAmount, setDepositAmount] = useState('');
   const [depositMethod, setDepositMethod] = useState('qris');
   const [activeInvoice, setActiveInvoice] = useState<any | null>(null);
+  const [verificationAmount, setVerificationAmount] = useState('');
   const [checkingPayment, setCheckingPayment] = useState(false);
 
   // Mini-Games configurations
@@ -404,6 +405,20 @@ export default function App() {
   // Simulate Cashify success confirmation callback
   const verifyPaymentSimulation = () => {
     if (!activeInvoice) return;
+    
+    const inputVal = parseFloat(verificationAmount);
+    if (!inputVal || isNaN(inputVal)) {
+      setErrorFlash('Silakan masukkan jumlah nominal yang Anda bayar/transfer untuk diverifikasi!');
+      playBeep(250, 0.2);
+      return;
+    }
+
+    if (inputVal !== activeInvoice.totalAmount) {
+      setErrorFlash(`Gagal Verifikasi! Nominal transfer Rp ${inputVal.toLocaleString()} tidak cocok dengan jumlah total tagihan unik Rp ${activeInvoice.totalAmount.toLocaleString()}! Sistem menolak transaksi ini untuk mencegah fraud.`);
+      playBeep(200, 0.45);
+      return;
+    }
+
     setCheckingPayment(true);
     playBeep(440, 0.1);
 
@@ -424,6 +439,7 @@ export default function App() {
       setSuccessFlash(`Pembayaran Sukses Terverifikasi! Rp ${depTotal.toLocaleString()} ditambahkan.`);
       logToAdmin(`Resolved payment verification for status invoice: ${activeInvoice.txId}`);
       setActiveInvoice(null);
+      setVerificationAmount('');
       setCheckingPayment(false);
       playBeep(1000, 0.3);
     }, 1500);
@@ -927,8 +943,14 @@ export default function App() {
                         {['ordinary', 'medium', 'high'].map(cat => (
                           <div key={cat} className="flex flex-col gap-2.5">
                             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1 ml-1">{cat === 'ordinary' ? 'ORDINARY (Biasa)' : cat.toUpperCase()} TIER</h4>
-                            {INITIAL_PRODUCTS.filter(p => p.category === cat).map(prod => (
-                              <div key={prod.id} className="bg-slate-900 border border-slate-800 p-4 rounded-2xl flex justify-between items-center hover:border-slate-700 transition">
+                            {INITIAL_PRODUCTS.filter(p => p.category === cat).map((prod, index) => (
+                              <motion.div
+                                key={prod.id}
+                                initial={{ opacity: 0, y: 12 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.35, delay: index * 0.06 }}
+                                className="bg-slate-900 border border-slate-800 p-4 rounded-2xl flex justify-between items-center hover:border-slate-700 transition"
+                              >
                                 <div className="flex flex-col gap-1">
                                   <span className="text-xs font-bold text-white">{prod.name}</span>
                                   <div className="flex gap-2 items-center">
@@ -937,7 +959,7 @@ export default function App() {
                                   </div>
                                 </div>
                                 <button onClick={() => buyProduct(prod)} className="bg-blue-600 hover:bg-blue-500 text-white text-xs px-3 py-1.5 rounded-xl font-bold">Sewa</button>
-                              </div>
+                              </motion.div>
                             ))}
                           </div>
                         ))}
@@ -1007,8 +1029,14 @@ export default function App() {
                       </div>
 
                       <div className="flex flex-col gap-2">
-                        {ledger.map(row => (
-                          <div key={row.id} className="bg-slate-900 border border-slate-800/80 p-3 rounded-xl flex justify-between items-center">
+                        {ledger.map((row, index) => (
+                          <motion.div
+                            key={row.id}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.3, delay: index * 0.05 }}
+                            className="bg-slate-900 border border-slate-800/80 p-3 rounded-xl flex justify-between items-center"
+                          >
                             <div className="flex flex-col gap-0.5">
                               <span className="text-[11px] font-bold text-white">{row.desc}</span>
                               <span className="text-[9px] text-slate-500">{row.date}</span>
@@ -1017,7 +1045,7 @@ export default function App() {
                               <span className="text-xs font-bold text-blue-400 font-mono">+Rp {row.amount.toLocaleString()}</span>
                               <span className="text-[8px] uppercase font-mono block text-slate-400">{row.type}</span>
                             </div>
-                          </div>
+                          </motion.div>
                         ))}
                       </div>
                     </div>
@@ -1507,6 +1535,18 @@ export default function App() {
                           <span className="text-slate-400">Sisa Expired Countdown:</span>
                           <span className="text-red-400 font-bold">{activeInvoice.expiresAt} WITA</span>
                         </div>
+                      </div>
+
+                      <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 text-left">
+                        <label className="text-[10px] text-slate-400 block mb-1 uppercase font-bold">Verifikasi Jumlah Transfer (Rupiah):</label>
+                        <input 
+                          type="number" 
+                          placeholder={`Contoh: ${activeInvoice.totalAmount}`} 
+                          value={verificationAmount} 
+                          onChange={e => setVerificationAmount(e.target.value)} 
+                          className="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white font-mono focus:ring-1 focus:ring-blue-500" 
+                        />
+                        <span className="text-[9px] text-slate-500 mt-1 block font-sans">Sistem mencocokkan nominal di atas dengan mutasi ledger unik guna menyelaraskan deposit instan otomatis.</span>
                       </div>
 
                       <div className="grid grid-cols-2 gap-2 mt-2">

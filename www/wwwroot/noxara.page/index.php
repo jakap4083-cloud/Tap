@@ -1222,6 +1222,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action) {
                             </div>
                         </div>
 
+                        <div class="bg-navy_dark/40 p-3 rounded-lg border border-border_line text-left">
+                            <label class="block text-[10px] text-text_sub mb-1 font-bold uppercase sans">Verifikasi Nominal Bayar (IDR):</label>
+                            <input id="php_deposit_verify_input" type="number" placeholder="Masukkan nominal transfer Anda" class="w-full bg-navy_dark border border-border_line rounded-lg px-2.5 py-1.5 text-xs text-text_main font-mono focus:outline-none focus:ring-1 focus:ring-blue_primary">
+                            <span class="text-[9px] text-text_sub block mt-1 sans">Sistem membandingkan nominal riil dari mutasi mutlak e-wallet bank Anda dengan nominal tagihan unik untuk mencegah manipulasi.</span>
+                        </div>
+
                         <div class="grid grid-cols-2 gap-2.5 mt-2">
                             <button id="qris_cancel_btn" onclick="cancelPhpInvoice()" class="py-2.5 bg-navy_light text-text_sub font-bold rounded-lg text-xs hover:bg-border_line">Batalkan</button>
                             <button id="qris_verify_btn" onclick="verifyPhpPayment()" class="py-2.5 bg-custom_success text-text_main font-bold rounded-lg text-xs flex items-center justify-center gap-1.5 hover:opacity-90">
@@ -1320,12 +1326,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action) {
 
                     function cancelPhpInvoice() {
                         if (invoiceTimer) clearInterval(invoiceTimer);
+                        const verifyInput = document.getElementById('php_deposit_verify_input');
+                        if (verifyInput) verifyInput.value = '';
                         document.getElementById('invoice_display_section').classList.add('hidden');
                         document.getElementById('deposit_form_section').classList.remove('hidden');
                         playSystemBeep(350, 0.12);
                     }
 
                     function verifyPhpPayment() {
+                        const verifyInput = document.getElementById('php_deposit_verify_input');
+                        const verifyVal = parseInt(verifyInput ? verifyInput.value : '');
+
+                        if (!verifyVal || isNaN(verifyVal)) {
+                            alert('Silakan masukkan jumlah nominal transfer yang Anda bayar untuk diverifikasi!');
+                            return;
+                        }
+
+                        if (verifyVal !== rawInvoiceAmount) {
+                            alert('Gagal Verifikasi! Nominal transfer Rp ' + verifyVal.toLocaleString('id-ID') + ' tidak cocok dengan total tagihan unik Rp ' + rawInvoiceAmount.toLocaleString('id-ID') + '! Sistem menolak transaksi untuk mencegah fraud.');
+                            playSystemBeep(200, 0.45);
+                            return;
+                        }
+
                         const overlay = document.getElementById('checkout_loading_overlay');
                         const statusTxt = document.getElementById('loading_status_text');
                         
@@ -1343,6 +1365,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action) {
 
                                 setTimeout(function() {
                                     overlay.classList.add('hidden');
+                                    const verifyInput2 = document.getElementById('php_deposit_verify_input');
+                                    if (verifyInput2) verifyInput2.value = '';
                                     
                                     // Process real balance storage
                                     const rawAmt = Math.max(20000, rawInvoiceAmount);
